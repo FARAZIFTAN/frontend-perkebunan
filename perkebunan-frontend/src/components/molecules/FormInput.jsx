@@ -15,14 +15,14 @@ const FormInput = ({
   className = '',
   checked = false,
   rows = 3,
-  options = []  // Untuk radio dan checkbox
+  options = [],
+  icon = null
 }) => {
   
-  // Fungsi menangani perubahan input
+  // Handle input changes
   const handleInputChange = (e) => {
     let inputValue = e.target.value;
 
-    // Khusus untuk number, konversi ke integer jika ada nilai
     if (type === 'number' && inputValue !== '') {
       inputValue = parseInt(inputValue);
       if (isNaN(inputValue)) {
@@ -30,22 +30,36 @@ const FormInput = ({
       }
     }
 
-    // Khusus untuk checkbox
     if (type === 'checkbox') {
       inputValue = e.target.checked;
     }
 
-    // Khusus untuk radio
     if (type === 'radio') {
       inputValue = e.target.value;
     }
 
-    // Panggil fungsi onChange dengan data yang sudah diproses
     onChange({ target: { name: name, value: inputValue } });
   };
 
+  // Render the appropriate input icon
+  const renderInputIcon = () => {
+    if (icon) return icon;
+    
+    // Default icons based on input type
+    const iconsByType = {
+      text: <span>✏️</span>,
+      email: <span>✉️</span>,
+      password: <span>🔒</span>,
+      number: <span>🔢</span>,
+      date: <span>📅</span>,
+      tel: <span>📞</span>
+    };
+    
+    return iconsByType[type] || null;
+  };
+
   return (
-    <div className={`form-group ${className}`}>
+    <div className={`form-group ${className} ${error ? 'has-error' : ''}`}>
       {label && (
         <label className="form-label">
           {label}
@@ -53,34 +67,47 @@ const FormInput = ({
         </label>
       )}
 
-      {/* Input Tipe Text, Email, Password, Number, Date, Tel */}
+      {/* Text, Email, Password, Number, Date, Tel inputs */}
       {['text', 'email', 'password', 'number', 'date', 'tel'].includes(type) && (
-        <input
-          type={type}
-          value={value}
-          onChange={handleInputChange}
-          placeholder={placeholder}
-          name={name}
-          required={required}
-          disabled={disabled}
-          className={`form-input ${error ? 'input-error' : ''}`}
-        />
+        <div className={icon || renderInputIcon() ? 'input-with-icon' : ''}>
+          {(icon || renderInputIcon()) && (
+            <div className="input-icon">
+              {icon || renderInputIcon()}
+            </div>
+          )}
+          <input
+            type={type}
+            value={value}
+            onChange={handleInputChange}
+            placeholder={placeholder}
+            name={name}
+            required={required}
+            disabled={disabled}
+            className={`form-input ${error ? 'input-error' : ''}`}
+          />
+        </div>
       )}
 
-      {/* Input Tipe Checkbox */}
+      {/* Checkbox input */}
       {type === 'checkbox' && (
-        <input
-          type="checkbox"
-          checked={checked}
-          onChange={handleInputChange}
-          name={name}
-          required={required}
-          disabled={disabled}
-          className={`form-checkbox ${error ? 'input-error' : ''}`}
-        />
+        <div className="checkbox-container">
+          <input
+            type="checkbox"
+            checked={checked}
+            onChange={handleInputChange}
+            name={name}
+            required={required}
+            disabled={disabled}
+            className={`form-checkbox ${error ? 'input-error' : ''}`}
+            id={`checkbox-${name}`}
+          />
+          <label htmlFor={`checkbox-${name}`} className="checkbox-label">
+            {placeholder}
+          </label>
+        </div>
       )}
 
-      {/* Input Tipe Radio */}
+      {/* Radio input group */}
       {type === 'radio' && options.length > 0 && (
         <div className="form-radio-group">
           {options.map((option, index) => (
@@ -99,7 +126,7 @@ const FormInput = ({
         </div>
       )}
 
-      {/* Input Tipe Textarea */}
+      {/* Textarea input */}
       {type === 'textarea' && (
         <textarea
           value={value}
@@ -113,6 +140,7 @@ const FormInput = ({
         />
       )}
 
+      {/* Error message with animation */}
       {error && <span className="error-message">{error}</span>}
     </div>
   );
@@ -134,7 +162,8 @@ FormInput.propTypes = {
   options: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,
     value: PropTypes.string
-  }))
+  })),
+  icon: PropTypes.element
 };
 
 export default FormInput;

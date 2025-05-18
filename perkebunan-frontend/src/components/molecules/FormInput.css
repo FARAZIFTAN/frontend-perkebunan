@@ -1,38 +1,229 @@
+/* ======================
+   CSS Custom Properties
+   ====================== */
+:root {
+  /* Colors */
+  --color-primary: #2e7d32;
+  --color-primary-light: #4caf50;
+  --color-primary-dark: #1b5e20;
+  --color-accent: #81c784;
+  --color-error: #e53935;
+  --color-white: #fff;
+  --color-gray: #ddd;
+  --color-text-light: #9e9e9e;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 20px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-focus: 0 0 0 3px rgba(76, 175, 80, 0.2);
+  --shadow-error: 0 2px 4px rgba(229, 57, 53, 0.1);
+
+  /* Transitions */
+  --transition-base: all 0.3s ease;
+  --transition-fast: all 0.2s ease;
+}
+
+/* ======================
+   Form Base Styles
+   ====================== */
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: var(--spacing-xl);
+  position: relative;
+  transition: var(--transition-base);
 }
 
 .form-label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: var(--spacing-sm);
+  font-weight: 500;
+  color: var(--color-primary);
+  transition: var(--transition-base);
+  font-size: 0.95rem;
 }
 
-.form-input, .form-textarea, .form-checkbox {
+/* ======================
+   Input Elements
+   ====================== */
+.form-input,
+.form-textarea {
   width: 100%;
-  padding: 8px;
+  padding: var(--spacing-md) var(--spacing-lg);
   margin: 3px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid var(--color-gray);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: var(--transition-base);
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-sm);
 }
 
+/* Input States */
+.form-input:hover,
+.form-textarea:hover {
+  border-color: var(--color-accent);
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: var(--color-primary-light);
+  box-shadow: var(--shadow-focus);
+  outline: none;
+  animation: focusAnimation 0.3s ease;
+}
+
+/* Textarea Specific */
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* ======================
+   Radio & Checkbox Styles
+   ====================== */
 .form-radio-group {
   display: flex;
-  gap: 10px;
+  gap: 15px;
+  padding: var(--spacing-sm) 0;
+  flex-wrap: wrap;
 }
 
 .form-radio {
-  margin-right: 10px;
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: var(--transition-fast);
 }
 
+.form-radio:hover {
+  transform: translateY(-2px);
+}
+
+.form-radio input[type="radio"],
+.form-checkbox {
+  margin-right: var(--spacing-xs);
+  cursor: pointer;
+  accent-color: var(--color-primary-light);
+}
+
+.form-checkbox {
+  width: 18px;
+  height: 18px;
+}
+
+/* ======================
+   Special Input Types
+   ====================== */
+/* Date Input */
+input[type="date"] {
+  appearance: none;
+  padding: var(--spacing-md) var(--spacing-lg);
+  line-height: 1.5;
+}
+
+/* Number Input */
+input[type="number"] {
+  appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+/* Select Input */
+select.form-input {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%232e7d32' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+  padding-right: 40px;
+  appearance: none;
+}
+
+/* ======================
+   Validation & Error States
+   ====================== */
 .input-error {
-  border-color: red;
+  border-color: var(--color-error);
+  box-shadow: var(--shadow-error);
 }
 
 .error-message {
-  color: red;
+  color: var(--color-error);
   font-size: 12px;
+  margin-top: var(--spacing-xs);
+  animation: shake 0.5s ease;
+  display: flex;
+  align-items: center;
 }
 
-.form-textarea {
-  resize: vertical;
+.error-message::before {
+  content: "⚠️";
+  margin-right: var(--spacing-xs);
+  font-size: 14px;
+}
+
+.required-mark {
+  color: var(--color-error);
+  margin-left: var(--spacing-xs);
+  display: inline-block;
+  animation: pulse 2s infinite;
+}
+
+/* ======================
+   Icons & Decorations
+   ====================== */
+.input-with-icon {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: var(--spacing-md);
+  color: var(--color-primary-light);
+}
+
+.input-with-icon .form-input {
+  padding-left: 40px;
+}
+
+/* ======================
+   Placeholder Styling
+   ====================== */
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--color-text-light);
+  opacity: 0.7;
+}
+
+/* ======================
+   Animations
+   ====================== */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 0.5; transform: scale(1); }
+}
+
+@keyframes focusAnimation {
+  0% { transform: scale(0.98); }
+  70% { transform: scale(1.01); }
+  100% { transform: scale(1); }
 }

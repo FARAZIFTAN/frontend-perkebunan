@@ -15,14 +15,30 @@ const Button = ({
   iconPosition = 'left'
 }) => {
 
-  // Kelas tombol dengan dinamis
+  // Enhanced dynamic button classes
   const buttonClasses = `
     btn
     btn-${variant}
     btn-${size}
     ${fullWidth ? 'btn-full-width' : ''}
     ${loading ? 'btn-loading' : ''}
+    ${icon ? 'btn-with-icon' : ''}
   `.trim();
+
+  // Added loading spinner with animation
+  const renderLoadingSpinner = () => (
+    <span className="btn-spinner">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" strokeOpacity="0.25" />
+        <path 
+          d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22" 
+          stroke="currentColor" 
+          strokeWidth="4" 
+          strokeLinecap="round" 
+        />
+      </svg>
+    </span>
+  );
 
   return (
     <button
@@ -31,11 +47,11 @@ const Button = ({
       className={buttonClasses}
       disabled={disabled || loading}
     >
-      {loading && <span className="btn-spinner">⏳</span>}
+      {loading && renderLoadingSpinner()}
       {!loading && icon && iconPosition === 'left' && (
         <span className="btn-icon">{icon}</span>
       )}
-      {!loading && text}
+      <span>{!loading && text}</span>
       {!loading && icon && iconPosition === 'right' && (
         <span className="btn-icon">{icon}</span>
       )}

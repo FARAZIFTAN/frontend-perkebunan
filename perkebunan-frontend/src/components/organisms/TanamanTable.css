@@ -1,33 +1,433 @@
+/* styles/TanamanTable.css - Dengan tambahan fitur */
+
 .table-responsive {
   overflow-x: auto;
-  margin-top: 15px;
+  margin-top: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.table-responsive:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Dekorasi latar belakang tabel */
+.table-responsive::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 70px;
+  height: 70px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='70' viewBox='0 0 70 70'%3E%3Cpath d='M30,10 Q40,0 50,10 Q60,20 60,30 Q60,40 50,50 Q40,60 30,50 Q20,40 20,30 Q20,20 30,10 Z' fill='%234caf5015'/%3E%3C/svg%3E");
+  z-index: 1;
+  pointer-events: none;
 }
 
 .table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .table th, .table td {
-  padding: 8px;
+  padding: 15px;
   text-align: left;
-  border: 1px solid #ddd;
+  border-bottom: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
 }
 
 .table th {
-  background-color: #f4f4f4;
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  color: #2e7d32;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  position: relative;
+  overflow: hidden;
 }
 
+.table th::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #4caf50, transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.table:hover th::after {
+  transform: translateX(100%);
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.table tbody tr {
+  animation: fadeInRow 0.6s forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInRow {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+.table tbody tr:nth-child(2) { animation-delay: 0.2s; }
+.table tbody tr:nth-child(3) { animation-delay: 0.3s; }
+.table tbody tr:nth-child(4) { animation-delay: 0.4s; }
+.table tbody tr:nth-child(5) { animation-delay: 0.5s; }
+.table tbody tr:nth-child(6) { animation-delay: 0.6s; }
+.table tbody tr:nth-child(7) { animation-delay: 0.7s; }
+.table tbody tr:nth-child(8) { animation-delay: 0.8s; }
+.table tbody tr:nth-child(9) { animation-delay: 0.9s; }
+.table tbody tr:nth-child(10) { animation-delay: 1.0s; }
+
 .table tr:hover {
-  background-color: #f1f1f1;
+  background-color: #f9f9f9;
+  transform: scale(1.005);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  z-index: 5;
+}
+
+.table tr::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background-color: #4caf50;
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.table tr:hover::before {
+  transform: scaleY(1);
 }
 
 .table td {
-  white-space: nowrap;
+  vertical-align: middle;
+  position: relative;
 }
 
+/* Baris berselang-seling */
+.table tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* Indikator status dengan animasi */
+.status-indicator {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+  position: relative;
+  vertical-align: middle;
+}
+
+.status-indicator::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background-color: currentColor;
+  opacity: 0;
+  z-index: -1;
+  transition: all 0.3s ease;
+}
+
+tr:hover .status-indicator::after {
+  opacity: 0.1;
+  animation: pulseIndicator 1.5s infinite;
+}
+
+@keyframes pulseIndicator {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.1; }
+  50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.2; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0.1; }
+}
+
+.status-good {
+  background-color: #4caf50;
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+}
+
+.status-medium {
+  background-color: #ffc107;
+  box-shadow: 0 0 8px rgba(255, 193, 7, 0.5);
+}
+
+.status-poor {
+  background-color: #f44336;
+  box-shadow: 0 0 8px rgba(244, 67, 54, 0.5);
+}
+
+/* Quality indicator wrapper */
+.quality-indicator-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.quality-text {
+  display: flex;
+  align-items: center;
+}
+
+/* Quality tooltip */
+.quality-tooltip {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1b5e20;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  animation: fadeInTooltip 0.3s forwards;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+.quality-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #1b5e20 transparent transparent transparent;
+}
+
+@keyframes fadeInTooltip {
+  from { opacity: 0; transform: translate(-50%, 10px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* Kontainer tombol aksi */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-start;
+  transition: all 0.3s ease;
+}
+
+tr:hover .action-buttons {
+  transform: scale(1.05);
+}
+
+/* Animasi ikon tombol */
+.btn-icon-anim {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.btn:hover .btn-icon-anim {
+  animation: wiggle 0.5s ease;
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-15deg); }
+  75% { transform: rotate(15deg); }
+}
+
+/* Responsif */
 @media (max-width: 768px) {
   .table th, .table td {
     font-size: 14px;
+    padding: 12px 10px;
   }
+  
+  .action-buttons {
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .table th {
+    text-align: center;
+  }
+}
+
+/* Animasi baris */
+.table tbody tr.highlight-row {
+  animation: highlightRow 2s ease-in-out;
+}
+
+@keyframes highlightRow {
+  0%, 100% { background-color: transparent; }
+  50% { background-color: rgba(76, 175, 80, 0.2); }
+}
+
+/* Sel dengan penekanan */
+.cell-emphasis {
+  font-weight: 600;
+  color: #2e7d32;
+  position: relative;
+}
+
+.cell-emphasis::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #4caf50;
+  transition: width 0.3s ease;
+}
+
+tr:hover .cell-emphasis::after {
+  width: 100%;
+}
+
+/* Ikon header dengan animasi */
+.th-icon {
+  display: inline-block;
+  margin-right: 5px;
+  opacity: 0.7;
+  transition: transform 0.3s ease;
+}
+
+th:hover .th-icon {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* Header yang dapat diurutkan */
+.sortable {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+}
+
+.sortable::after {
+  content: attr(data-sort-icon);
+  font-size: 0.8em;
+  margin-left: 5px;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+.sortable:hover::after {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+/* Header urutan naik/turun */
+.sort-asc::after {
+  content: '↑' !important;
+  opacity: 1;
+}
+
+.sort-desc::after {
+  content: '↓' !important;
+  opacity: 1;
+}
+
+/* Status kosong */
+.empty-row {
+  text-align: center;
+  padding: 2rem;
+  color: #757575;
+  font-style: italic;
+}
+
+.empty-row td {
+  background-color: #f5f5f5;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.empty-state-icon {
+  font-size: 4rem;
+  color: #c8e6c9;
+  margin-bottom: 1rem;
+  animation: floatIcon 3s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.empty-state-message {
+  font-size: 1.2rem;
+  color: #7cb342;
+  margin-bottom: 1rem;
+  animation: fadeIn 1s ease-out;
+}
+
+/* Table footer */
+.table-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.table-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.table-count {
+  font-weight: 600;
+}
+
+.sort-info {
+  color: #4caf50;
+  font-style: italic;
+}
+
+/* Transformasi pada hover kolom sortable */
+th.sortable:hover {
+  background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+}
+
+/* Efek focus pada baris */
+.table tbody tr:focus-within {
+  background-color: rgba(76, 175, 80, 0.1);
+  outline: none;
 }
