@@ -1,0 +1,33 @@
+.table-responsive {
+  overflow-x: auto;
+  margin-top: 15px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.table th {
+  background-color: #f4f4f4;
+}
+
+.table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.table td {
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .table th, .table td {
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,38 @@
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-input, .form-textarea, .form-checkbox {
+  width: 100%;
+  padding: 8px;
+  margin: 3px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-radio-group {
+  display: flex;
+  gap: 10px;
+}
+
+.form-radio {
+  margin-right: 10px;
+}
+
+.input-error {
+  border-color: red;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+}
+
+.form-textarea {
+  resize: vertical;
+}
